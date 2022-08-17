@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="product" />
+        <module name="coupon" />
+        <module name="profile" />
+        <module name="api-gateway" />
+        <module name="check-out" />
+        <module name="payment" />
+        <module name="category" />
+        <module name="external-clients" />
+        <module name="eureka-server" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="api-gateway" options="" />
+      <module name="category" options="--add-modules java.base" />
+      <module name="check-out" options="" />
+      <module name="coupon" options="" />
+      <module name="eureka-server" options="" />
+      <module name="external-clients" options="" />
+      <module name="product" options="" />
+      <module name="profile" options="" />
+    </option>
+  </component>
+</project>

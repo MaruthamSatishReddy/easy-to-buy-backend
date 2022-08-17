@@ -1,0 +1,5 @@
+com\easytobuy\Profile$ProfileBuilder.class
+com\easytobuy\ProfileController.class
+com\easytobuy\ProfileRepository.class
+com\easytobuy\Profile.class
+com\easytobuy\ProfileApplication.class

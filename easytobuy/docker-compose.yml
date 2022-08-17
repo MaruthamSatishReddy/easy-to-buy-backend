@@ -1,0 +1,178 @@
+services:
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: amigoscode
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    container_name: grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=satish
+      - GF_SECURITY_ADMIN_PASSWORD=satish
+    networks:
+      - spring
+    depends_on:
+      - prometheus
+
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - spring
+
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - spring
+
+  eureka-server:
+    image: satishlakshmiudemy/eureka-server:latest
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    networks:
+      - spring
+
+    depends_on:
+      - zipkin
+
+  api-gateway:
+    image: satishlakshmiudemy/api-gateway:1.0-SNAPSHOT
+    container_name: api-gateway
+    pull_policy: always
+    ports:
+      - "9098:9098"
+    networks:
+      - spring
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    depends_on:
+      - zipkin
+      - eureka-server
+
+  category:
+    image: satishlakshmiudemy/category:latest
+    pull_policy: always
+    container_name: category
+    ports:
+      - "9093:9093"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    networks:
+      - spring
+      - postgres
+    depends_on:
+      - postgres
+      - zipkin
+      - eureka-server
+      - api-gateway
+
+
+  coupon:
+    image: satishlakshmiudemy/coupon:latest
+    container_name: coupon
+    pull_policy: always
+    ports:
+      - "9095:9095"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    networks:
+      - spring
+      - postgres
+
+    depends_on:
+      - postgres
+      - zipkin
+      - eureka-server
+      - api-gateway
+
+
+
+
+  product:
+    image: satishlakshmiudemy/product:latest
+    pull_policy: always
+    container_name: product
+    ports:
+      - "9094:9094"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    networks:
+      - spring
+      - postgres
+    depends_on:
+      - postgres
+      - zipkin
+      - eureka-server
+      - api-gateway
+
+
+
+  profile:
+    image: satishlakshmiudemy/profile:latest
+    pull_policy: always
+    container_name: profile
+    ports:
+      - "9097:9097"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    networks:
+      - spring
+      - postgres
+    depends_on:
+      - postgres
+      - zipkin
+      - eureka-server
+      - api-gateway
+
+
+networks:
+  spring:
+    driver: bridge
+  postgres:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:
+
+
+
+

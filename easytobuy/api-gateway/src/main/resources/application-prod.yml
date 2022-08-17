@@ -1,0 +1,46 @@
+server:
+  port: 9098
+
+spring:
+  application:
+    name: api-gateway
+
+  zipkin:
+    base-url: http://zipkin:9411
+
+  ##GATEWAY CONFIGURATIONS
+  cloud:
+    gateway:
+      routes:
+        ##PRODUCT ROUTING
+        - id: product
+          uri: lb://PRODUCT
+          predicates:
+            - Path=/api/**
+
+        ##CATEGORY ROUTING
+        - id: category
+          uri: lb://CATEGORY
+          predicates:
+            - Path=/api/**
+        ##COUPON ROUTING
+        - id: coupon
+          uri: lb://COUPON
+          predicates:
+            - Path=/api/**
+
+        ##USER ROUTING
+        - id: user
+          uri: lb://USER
+          predicates:
+            - Path=/api/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+    enabled: false
+
+

@@ -1,0 +1,36 @@
+server:
+  port: 9098
+
+spring:
+  application:
+    name: check-out
+  #zipkin:
+    #base-url: http://zipkin:9411
+  datasource:
+    password: password
+    url: jdbc:postgresql://postgres:5432/easytobuy
+    username: amigoscode
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: false
+    open-in-view: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+    enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - '*'
+#Stripe Component
+stripe:
+  key:
+    secret: sk_test_51BHtdmF5UXVWBfyDbykYhSBkz3ST90CMgBOaMXKAcL7gIuTi7cNawLmYh7xFe7fYnZcZB9Fn33XEIlURpwMapHic00MwQV0iiQ

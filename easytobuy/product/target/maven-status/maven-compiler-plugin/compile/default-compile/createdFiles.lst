@@ -1,0 +1,5 @@
+com\easytobuy\product\Product.class
+com\easytobuy\product\ProductApplication.class
+com\easytobuy\product\Product$ProductBuilder.class
+com\easytobuy\product\ProductRepository.class
+com\easytobuy\product\ProductRestController.class

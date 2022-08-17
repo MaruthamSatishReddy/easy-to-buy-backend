@@ -1,0 +1,37 @@
+server:
+  port: 9095
+
+spring:
+  application:
+    name: coupon
+  zipkin:
+    base-url: http://localhost:9411
+  datasource:
+    password: password
+    url: jdbc:postgresql://localhost:5432/easytobuy
+    driverClassName: org.postgresql.Driver
+    username: amigoscode
+    jpa:
+      database-platform:
+      hibernate:
+        ddl-auto: update
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+          format_sql: true
+      show-sql: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+    enabled: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - '*'

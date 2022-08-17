@@ -1,0 +1,18 @@
+server:
+  port: 9096
+
+spring:
+  application:
+    name: external-clients
+  zipkin:
+    http://localhost:9411
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    enabled: false
+
+client:
+  coupon:
+    url: http://localhost:9095

@@ -1,0 +1,28 @@
+server:
+  port: 9010
+
+spring:
+  application:
+    name: product
+  datasource:
+    password: password
+    url: jdbc:postgresql://localhost:5432/easytobuy
+    driverClassName: org.postgresql.Driver
+    username: amigoscode
+    jpa:
+      database-platform:
+      hibernate:
+        ddl-auto: create
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+          format_sql: true
+      show-sql: true
+  jpa:
+    generate-ddl: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - '*'
